@@ -8,8 +8,7 @@ function getStoredMaxDate() {
   return dates.length ? new Date(Math.max(...dates)) : new Date("2025-06-20");
 }
 
-// CLEAR TEST DATA
-localStorage.removeItem("dailyTrackerData");
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("tracker-body");
