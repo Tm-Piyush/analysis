@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Analysis Board</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Self Study (hrs)</th>
+          <th>Lecture (hrs)</th>
+          <th>Practice (hrs)</th>
+          <th>Wake Up Time</th>
+          <th>Schedule</th>
+          <th>Unused Time (hrs)</th>
+          <th>Medi (min)</th>
+          <th>Phone (hrs)</th>
+          <th>WWW</th>
+          <th>Result</th>
+          <th>Grade</th>
+          <th>check</th>
+        </tr>
+      </thead>
+      <tbody id="tracker-body">
+        <!-- Rows will be generated dynamically -->
+      </tbody>
+    </table>
+  </div>
+  <script>
+    const allowedStart = 16; // 4:00 PM
+    const allowedEnd = 24;  // 11:59 PM
+
+    const today = new Date();
+    const hour = today.getHours();
+
+    const container = document.getElementById("tracker-body");
+    if (hour >= allowedStart && hour < allowedEnd) {
+      const row = document.createElement("tr");
+
+      
+
+      container.appendChild(row);
+
+      // Handle calculation
+      const inputs = document.querySelectorAll("input, select");
+      inputs.forEach(input => {
+        input.addEventListener("change", calculate);
+      });
+
+      function calculate() {
+        const self = +document.getElementById("self").value;
+        let selfPoints = self >= 6 ? 9 : self >= 3 ? 4 : self >= 1 ? 1 : 0;
+
+        const lecture = +document.getElementById("lecture").value;
+        const lecturePoints = lecture * 1;
+
+        const practice = +document.getElementById("practice").value;
+        const practicePoints = practice * 1.5;
+
+        const wake = document.getElementById("wake").value;
+        let wakePoints = wake === "4" || wake === "5" ? 1 : wake === "6" || wake === "7" ? 0 : -1;
+
+        const schedule = document.getElementById("schedule").value;
+        let schedulePoints = schedule === "yes" ? 1 : -1;
+
+        const unused = +document.getElementById("unused").value;
+        const unusedPoints = unused * -1.5;
+
+        const medi = +document.getElementById("medi").value;
+        const mediPoints = medi / 10 * 1;
+
+        const phone = +document.getElementById("phone").value;
+        const phonePoints = phone * -2;
+
+        const ww = document.getElementById("ww").value;
+        const wwPoints = ww === "yes" ? -5 : 0;
+
+        const total = selfPoints + lecturePoints + practicePoints + wakePoints + schedulePoints + unusedPoints + mediPoints + phonePoints + wwPoints;
+        document.getElementById("result").textContent = total.toFixed(1);
+
+        let grade = "-";
+        if (total > 17) grade = "⭐⭐⭐";
+        else if (total >= 12) grade = "⭐⭐";
+        else if (total >= 7) grade = "⭐";
+        else if (total >= 0) grade = "✅";
+        else if (total >= -10) grade = "❌";
+        else if (total >= -20) grade = "❌❌";
+        else grade = "❌❌❌";
+
+        document.getElementById("grade").textContent = grade;
+      }
+    } else {
+      container.innerHTML = `<tr><td colspan="12">Entries allowed only between 4:00 PM and 11:59 PM</td></tr>`;
+    }
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
