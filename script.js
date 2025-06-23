@@ -235,9 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dates = getDates(startDate, finalDate);
   dates.forEach(date => createRow(formatDate(date)));
 
-hideOldEntries(); // 👈 hides daily + weekly + monthly older than 28 days
-
-
   // Save summaries to localStorage
 function storeSummaries(weekly, monthly) {
   localStorage.setItem("weeklySummaries", JSON.stringify(weekly));
@@ -311,4 +308,3 @@ function updateSummaries() {
 loadSummaries();
 
 });
-
